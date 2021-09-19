@@ -12,19 +12,11 @@ translateExp (Minus e1 e2) env = (translateExp e1 env) ++ "-" ++ (translateExp e
 translateExp (Times e1 e2) env = (translateExp e1 env) ++ "*" ++ (translateExp e2 env)
 translateExp (Div e1 e2) env   = (translateExp e1 env) ++ "/" ++ (translateExp e2 env)
 translateExp (Negate e) env    = "-" ++ (translateExp e env)
-<<<<<<< HEAD
-translateExp (Var s) env       = case Map.lookup s env of
-                           Just e -> (translateExp e env)
-                           Nothing -> error ("variable "++s++" not found")
-translateExp (Let varl e2) env = translateExp e2 env'
-    where env' = getEnvFromVarl env varl
-=======
 translateExp (Var s) env       = s
 
 --translateExp (Var s) env       = case Map.lookup s env of
 --                           Just e -> (translateExp e env)
 --                           Nothing -> error ("variable "++s++" not found")
->>>>>>> Converted to translation language
     
 --where env' = Map.insert s e1 env
 
