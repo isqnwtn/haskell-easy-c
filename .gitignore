@@ -1,0 +1,6 @@
+*.o
+*.hi
+Grammar.hs
+Tokens.hs
+Calc
+artifacts/*
