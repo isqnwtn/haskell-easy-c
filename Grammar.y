@@ -31,7 +31,13 @@ import Tokens
 
 %%
 
-Func : fun var beg Exps end { Func $2 $4}
+Func : fun var Args beg Exps end { Func $2 $3 $5}
+
+Args : '(' ')' {[]}
+     | '(' ArgList ')' { $2 }
+
+ArgList : var { [$1] }
+        | var ArgList { ($1:$2) }
 
 Exps : Exp          { [$1] }
      | Exp Exps  { ($1:$2) }
@@ -54,7 +60,7 @@ parseError _ = error "Parse error"
 
 type Program = [Function]
 
-data Function = Func String [Exp]
+data Function = Func String [String] [Exp]
 
 data Exp = Plus Exp Exp
          | Minus Exp Exp

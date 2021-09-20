@@ -12,10 +12,13 @@ translateExp (Div e1 e2)    = (translateExp e1 ) ++ "/" ++ (translateExp e2 )
 translateExp (Negate e)     = "-" ++ (translateExp e )
 translateExp (Var s)        = s
 
-translateStatements (x:xs) = (translateExp x) ++ "\n" ++ (translateStatements xs)
-translateStatements []  = ""
+translateStatements (x:xs) t =( (replicate t '\t')++ (translateExp x) ++ "\n") ++ (translateStatements xs t)
+translateStatements [] t = ""
 
-translateProgram (Func name p)  = "function "++name++" {\n"++(translateStatements p)++"}\n"
+translateArgs (x:xs) = x++" "++(translateArgs xs)
+translateArgs []      = ""
+
+translateProgram (Func name args p)  = "function "++name++"("++(translateArgs args)++")"++" {\n"++(translateStatements p 1)++"}\n"
 
 
 -- some additional code that would be useful

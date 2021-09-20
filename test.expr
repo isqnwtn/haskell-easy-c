@@ -1,4 +1,4 @@
-fun main
+fun main (a b c)
 beg
 (a*b) + (c*d)
 2+3
