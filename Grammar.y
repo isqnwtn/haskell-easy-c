@@ -10,6 +10,9 @@ import Tokens
 %token
     let { TokenLet }
     in  { TokenIn }
+    fun { TokenFun }
+    beg { TokenBeg }
+    end { TokenEnd }
     int { TokenInt $$ }
     var { TokenSym $$ }
     '=' { TokenEq }
@@ -28,6 +31,11 @@ import Tokens
 
 %%
 
+Func : fun var beg Exps end { Func $2 $4}
+
+Exps : Exp          { [$1] }
+     | Exp Exps  { ($1:$2) }
+
 Exp : Exp '+' Exp            { Plus $1 $3 }
     | Exp '-' Exp            { Minus $1 $3 }
     | Exp '*' Exp            { Times $1 $3 }
@@ -44,6 +52,9 @@ Exp : Exp '+' Exp            { Plus $1 $3 }
 parseError :: [Token] -> a
 parseError _ = error "Parse error"
 
+type Program = [Function]
+
+data Function = Func String [Exp]
 
 data Exp = Plus Exp Exp
          | Minus Exp Exp

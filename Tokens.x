@@ -13,6 +13,9 @@ tokens :-
   "--".*                        ;
   let                           { \s -> TokenLet }
   in                            { \s -> TokenIn }
+  fun                           { \s -> TokenFun }
+  beg                           { \s -> TokenBeg }
+  end                           { \s -> TokenEnd }
   $digit+                       { \s -> TokenInt (read s) }
   \=                            { \s -> TokenEq }
   \+                            { \s -> TokenPlus }
@@ -28,6 +31,9 @@ tokens :-
 -- The token type:
 data Token = TokenLet
            | TokenIn
+           | TokenFun
+           | TokenBeg
+           | TokenEnd
            | TokenInt Int
            | TokenSym String
            | TokenEq

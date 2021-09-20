@@ -6,7 +6,7 @@ Tokens.hs : Tokens.x
 Grammar.hs : Grammar.y
 	happy Grammar.y
     
-Calc : Tokens.hs Grammar.hs Calc.hs
+Calc : Tokens.hs Grammar.hs Calc.hs Translate.hs
 	ghc --make Calc
 
 c:
