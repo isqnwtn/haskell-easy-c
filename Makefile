@@ -14,5 +14,4 @@ c:
     
 clean:
 	rm -f Calc Grammar.hs Tokens.hs *.o *.hi
-	rm artifacts/*
     

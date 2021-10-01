@@ -4,11 +4,26 @@ import Tokens
 import qualified Data.Map as Map
 import Translate
 
+import System.Environment
+import System.IO
+import Control.Monad
+
 
 
 main :: IO ()
 main = do
-    s <- getContents
+    let readContent = do
+        args <- getArgs
+        if ( length args ) == 0
+            then do
+                contents <- getContents
+                return contents
+            else do
+                handle <- openFile (head args) ReadMode
+                contents <- hGetContents handle
+                return contents
+
+    s <- readContent
     let ast = parseCalc (scanTokens s)
     --print ast
     -- remember the difference between print and putStr
