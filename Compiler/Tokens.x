@@ -1,5 +1,5 @@
 {
-module Tokens where
+module Compiler.Tokens where
 }
 
 %wrapper "basic"

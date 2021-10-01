@@ -3,4 +3,5 @@
 Grammar.hs
 Tokens.hs
 Calc
-artifacts/*
+Compiler/*.hs
+

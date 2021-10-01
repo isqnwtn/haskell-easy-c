@@ -1,6 +1,6 @@
-module Translate where
-import Grammar
-import Tokens
+module Lib.Translate where
+import Compiler.Grammar
+import Compiler.Tokens
 import qualified Data.Map as Map
 
 translateExp (Int v)         = show v

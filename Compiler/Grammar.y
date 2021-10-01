@@ -1,6 +1,6 @@
 {
-module Grammar where
-import Tokens
+module Compiler.Grammar where
+import Compiler.Tokens
 }
 
 %name parseCalc

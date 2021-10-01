@@ -1,17 +1,20 @@
+compilerfiles = Compiler/Grammar.hs Compiler/Tokens.hs
+libfiles = Calc.hs lib/Translate.hs
+
 all: Calc
 
-Tokens.hs : Tokens.x
-	alex Tokens.x
+Compiler/Tokens.hs : Compiler/Tokens.x
+	alex $^ -o $@
 
-Grammar.hs : Grammar.y
-	happy Grammar.y
+Compiler/Grammar.hs : Compiler/Grammar.y
+	happy $^ -o $@
     
-Calc : Tokens.hs Grammar.hs Calc.hs Translate.hs
+Calc : ${compilerfiles} ${libfiles}
 	ghc --make Calc
 
 c:
 	rm -f Grammar.hs Tokens.hs *.o *.hi
     
 clean:
-	rm -f Calc Grammar.hs Tokens.hs *.o *.hi
+	rm -f Calc ${compilerfiles} *.o *.hi Compiler/*.o Compiler/*.hi Lib/*.o Lib/*.hi
     

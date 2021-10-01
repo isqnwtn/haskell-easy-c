@@ -1,8 +1,8 @@
 module Main where
-import Grammar
-import Tokens
+import Compiler.Grammar
+import Compiler.Tokens
 import qualified Data.Map as Map
-import Translate
+import Lib.Translate
 
 import System.Environment
 import System.IO
