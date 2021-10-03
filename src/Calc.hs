@@ -1,8 +1,7 @@
 module Main where
 import Compiler.Grammar
 import Compiler.Tokens
-import qualified Data.Map as Map
-import Lib.Translate
+import Translate
 
 import System.Environment
 import System.IO

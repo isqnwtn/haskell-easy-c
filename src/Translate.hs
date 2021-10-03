@@ -1,4 +1,4 @@
-module Lib.Translate where
+module Translate where
 import Compiler.Grammar
 import Compiler.Tokens
 import qualified Data.Map as Map
