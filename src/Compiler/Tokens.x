@@ -16,6 +16,8 @@ tokens :-
   fun                           { \s -> TokenFun }
   beg                           { \s -> TokenBeg }
   end                           { \s -> TokenEnd }
+  if                            { \s -> TokenIf }
+  else                          { \s -> TokenElse }
   $digit+                       { \s -> TokenInt (read s) }
   \=                            { \s -> TokenEq }
   \+                            { \s -> TokenPlus }
@@ -34,6 +36,8 @@ data Token = TokenLet
            | TokenFun
            | TokenBeg
            | TokenEnd
+           | TokenIf
+           | TokenElse
            | TokenInt Int
            | TokenSym String
            | TokenEq

@@ -13,6 +13,8 @@ import Compiler.Tokens
     fun { TokenFun }
     beg { TokenBeg }
     end { TokenEnd }
+    if  { TokenIf }
+    else{ TokenElse }
     int { TokenInt $$ }
     var { TokenSym $$ }
     '=' { TokenEq }
@@ -31,13 +33,20 @@ import Compiler.Tokens
 
 %%
 
-Func : fun var Args beg Exps end { Func $2 $3 $5}
+Func : fun var Args beg Statements end { Func $2 $3 $5}
 
 Args : '(' ')' {[]}
      | '(' ArgList ')' { $2 }
 
 ArgList : var { [$1] }
         | var ArgList { ($1:$2) }
+
+Statement : var '=' Exp { AssignC $1 $3 }
+          | if '(' var ')' beg Statements end { IfC $3 $6 }
+          | if '(' var ')' beg Statements end else beg Statements end { IfElC $3 $6 $10 }
+
+Statements : Statement        { [$1] }
+           | Statement Statements { ($1:$2) }
 
 Exps : Exp          { [$1] }
      | Exp Exps  { ($1:$2) }
@@ -60,7 +69,11 @@ parseError _ = error "Parse error"
 
 type Program = [Function]
 
-data Function = Func String [String] [Exp]
+data Function = Func String [String] [Statement]
+
+data Statement = AssignC String Exp
+               | IfC String [Statement]
+               | IfElC String [Statement] [Statement]
 
 data Exp = Plus Exp Exp
          | Minus Exp Exp

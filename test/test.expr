@@ -1,7 +1,9 @@
 fun main (a b c)
 beg
-(a*b) + (c*d)
-2+3
-a+f+g
-3+5
+a = 3+4
+b = c+d
+if(ert)beg
+  a = 3+3
+  if(sdfg)beg a = 4+5 end else beg r= t+y end
+end
 end

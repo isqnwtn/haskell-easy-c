@@ -12,8 +12,21 @@ translateExp (Div e1 e2)    = (translateExp e1 ) ++ "/" ++ (translateExp e2 )
 translateExp (Negate e)     = "-" ++ (translateExp e )
 translateExp (Var s)        = s
 
-translateStatements (x:xs) t =( (replicate t '\t')++ (translateExp x) ++ "\n") ++ (translateStatements xs t)
-translateStatements [] t = ""
+translateStatement (AssignC varname exp) t = ( (replicate t '\t') ++ varname ++ " = " ++ (translateExp exp)++";\n")
+translateStatement (IfC condition stlist) t = ( (replicate t '\t') ++ "if(" ++ condition ++ "){\n" ++
+                                                (translateStatements stlist (t+1)) ++
+                                                (replicate t '\t')++"}\n"
+                                              )
+translateStatement (IfElC condition ifstlist elstlist) t = ( (replicate t '\t') ++ "if(" ++ condition ++ "){\n" ++
+                                                (translateStatements ifstlist (t+1)) ++
+                                                (replicate t '\t') ++ "else{\n" ++
+                                                (translateStatements elstlist (t+1)) ++
+                                                (replicate t '\t')++"}\n"
+                                              )
+
+
+translateStatements (x:xs) t = ( (translateStatement x t) ++ (translateStatements xs t) )
+translateStatements [] t     = ""
 
 translateArgs (x:xs) = x++" "++(translateArgs xs)
 translateArgs []      = ""
