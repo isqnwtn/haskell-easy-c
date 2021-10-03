@@ -6,4 +6,8 @@ if(ert)beg
   a = 3+3
   if(sdfg)beg a = 4+5 end else beg r= t+y end
 end
+while(meow) beg
+a = 4
+b = i c=2
+end
 end

@@ -15,6 +15,7 @@ import Compiler.Tokens
     end { TokenEnd }
     if  { TokenIf }
     else{ TokenElse }
+    while{ TokenWhile }
     int { TokenInt $$ }
     var { TokenSym $$ }
     '=' { TokenEq }
@@ -44,6 +45,7 @@ ArgList : var { [$1] }
 Statement : var '=' Exp { AssignC $1 $3 }
           | if '(' var ')' beg Statements end { IfC $3 $6 }
           | if '(' var ')' beg Statements end else beg Statements end { IfElC $3 $6 $10 }
+          | while '(' var ')'  beg Statements end { WhileC $3 $6 }
 
 Statements : Statement        { [$1] }
            | Statement Statements { ($1:$2) }
@@ -74,6 +76,7 @@ data Function = Func String [String] [Statement]
 data Statement = AssignC String Exp
                | IfC String [Statement]
                | IfElC String [Statement] [Statement]
+               | WhileC String [Statement]
 
 data Exp = Plus Exp Exp
          | Minus Exp Exp

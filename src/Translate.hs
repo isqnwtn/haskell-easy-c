@@ -23,6 +23,9 @@ translateStatement (IfElC condition ifstlist elstlist) t = ( (replicate t '\t') 
                                                 (translateStatements elstlist (t+1)) ++
                                                 (replicate t '\t')++"}\n"
                                               )
+translateStatement (WhileC condition stlist ) t = ( (replicate t '\t') ++ "while(" ++ condition ++ "){\n" ++ 
+                                                    (translateStatements stlist (t+1)) ++
+                                                    (replicate t '\t') ++ "}\n" )
 
 
 translateStatements (x:xs) t = ( (translateStatement x t) ++ (translateStatements xs t) )
