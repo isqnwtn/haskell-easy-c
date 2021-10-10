@@ -12,18 +12,23 @@ translateExp (Div e1 e2)    = (translateExp e1 ) ++ "/" ++ (translateExp e2 )
 translateExp (Negate e)     = "-" ++ (translateExp e )
 translateExp (Var s)        = s
 
+translateRelExp (ExpC e) = translateExp e
+translateRelExp (And a b) = (translateRelExp a) ++ " && " ++ (translateRelExp b)
+translateRelExp (Or a b) = (translateRelExp a) ++ " || " ++ (translateRelExp b)
+translateRelExp (Not a) = "!" ++ (translateRelExp a)
+
 translateStatement (AssignC varname exp) t = ( (replicate t '\t') ++ varname ++ " = " ++ (translateExp exp)++";\n")
-translateStatement (IfC condition stlist) t = ( (replicate t '\t') ++ "if(" ++ condition ++ "){\n" ++
+translateStatement (IfC condition stlist) t = ( (replicate t '\t') ++ "if(" ++ (translateRelExp condition) ++ "){\n" ++
                                                 (translateStatements stlist (t+1)) ++
                                                 (replicate t '\t')++"}\n"
                                               )
-translateStatement (IfElC condition ifstlist elstlist) t = ( (replicate t '\t') ++ "if(" ++ condition ++ "){\n" ++
+translateStatement (IfElC condition ifstlist elstlist) t = ( (replicate t '\t') ++ "if(" ++ (translateRelExp condition) ++ "){\n" ++
                                                 (translateStatements ifstlist (t+1)) ++
                                                 (replicate t '\t') ++ "else{\n" ++
                                                 (translateStatements elstlist (t+1)) ++
                                                 (replicate t '\t')++"}\n"
                                               )
-translateStatement (WhileC condition stlist ) t = ( (replicate t '\t') ++ "while(" ++ condition ++ "){\n" ++ 
+translateStatement (WhileC condition stlist ) t = ( (replicate t '\t') ++ "while(" ++ (translateRelExp condition) ++ "){\n" ++ 
                                                     (translateStatements stlist (t+1)) ++
                                                     (replicate t '\t') ++ "}\n" )
 

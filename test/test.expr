@@ -2,11 +2,11 @@ fun main (a b c)
 beg
 a = 3+4
 b = c+d
-if(ert)beg
+if(!ert)beg
   a = 3+3
-  if(sdfg)beg a = 4+5 end else beg r= t+y end
+  if(sdfg&&a)beg a = 4+5 end else beg r= t+y end
 end
-while(meow) beg
+while(meow||v) beg
 a = 4
 b = i c=2
 end

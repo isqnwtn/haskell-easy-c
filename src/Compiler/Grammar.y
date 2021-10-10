@@ -25,6 +25,9 @@ import Compiler.Tokens
     '/' { TokenDiv }
     '(' { TokenLParen }
     ')' { TokenRParen }
+    "&&"{ TokenAnd }
+    "||"{ TokenOr }
+    '!' { TokenNot }
 
 %right in
 %nonassoc '>' '<'
@@ -43,15 +46,13 @@ ArgList : var { [$1] }
         | var ArgList { ($1:$2) }
 
 Statement : var '=' Exp { AssignC $1 $3 }
-          | if '(' var ')' beg Statements end { IfC $3 $6 }
-          | if '(' var ')' beg Statements end else beg Statements end { IfElC $3 $6 $10 }
-          | while '(' var ')'  beg Statements end { WhileC $3 $6 }
+          | if '(' RelExp ')' beg Statements end { IfC $3 $6 }
+          | if '(' RelExp ')' beg Statements end else beg Statements end { IfElC $3 $6 $10 }
+          | while '(' RelExp ')'  beg Statements end { WhileC $3 $6 }
 
 Statements : Statement        { [$1] }
            | Statement Statements { ($1:$2) }
 
-Exps : Exp          { [$1] }
-     | Exp Exps  { ($1:$2) }
 
 Exp : Exp '+' Exp            { Plus $1 $3 }
     | Exp '-' Exp            { Minus $1 $3 }
@@ -61,6 +62,11 @@ Exp : Exp '+' Exp            { Plus $1 $3 }
     | '-' Exp %prec NEG      { Negate $2 }
     | int                    { Int $1 }
     | var                    { Var $1 }
+
+RelExp : Exp                 { ExpC $1 }
+       | RelExp "&&" RelExp  { And $1 $3 }
+       | RelExp "||" RelExp  { Or $1 $3 }
+       | '!' RelExp          { Not $2 }
 
 
 
@@ -74,9 +80,9 @@ type Program = [Function]
 data Function = Func String [String] [Statement]
 
 data Statement = AssignC String Exp
-               | IfC String [Statement]
-               | IfElC String [Statement] [Statement]
-               | WhileC String [Statement]
+               | IfC RelExp [Statement]
+               | IfElC RelExp [Statement] [Statement]
+               | WhileC RelExp [Statement]
 
 data Exp = Plus Exp Exp
          | Minus Exp Exp
@@ -87,4 +93,10 @@ data Exp = Plus Exp Exp
          | Int Int
          | Var String
          deriving Show
+
+data RelExp = ExpC Exp
+            | And RelExp RelExp
+            | Or RelExp RelExp
+            | Not RelExp
+            deriving Show
 }

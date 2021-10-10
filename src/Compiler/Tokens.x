@@ -27,6 +27,9 @@ tokens :-
   \/                            { \s -> TokenDiv }
   \(                            { \s -> TokenLParen }
   \)                            { \s -> TokenRParen }
+  \&\&                          { \s -> TokenAnd }
+  \|\|                          { \s -> TokenOr }
+  \!                            { \s -> TokenNot }
   $alpha [$alpha $digit \_ \']* { \s -> TokenSym s }
 
 {
@@ -49,6 +52,9 @@ data Token = TokenLet
            | TokenDiv
            | TokenLParen
            | TokenRParen
+           | TokenAnd
+           | TokenOr
+           | TokenNot
            deriving (Eq,Show)
 
 scanTokens = alexScanTokens
